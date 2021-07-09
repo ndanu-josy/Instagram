@@ -21,4 +21,5 @@ from django.contrib.auth import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'', include('insta.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
