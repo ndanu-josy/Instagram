@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{%block content%}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-header">
+            <img width="100%" height="100%" src="{{profile.profile_photo.url }}" alt="profile">
+        </div>
+        <div class="panel-body">
+            <h2>{{user.username}}</h2>
+            <p>{{user.email}}</p>
+            <p>{{profile.bio}}</p>
+        </div>
+        <div class="panel-footer">
+            <p>Followers</p>
+            <p>Following</p>
+        </div>
+        <a href="/"  class="btn btn-info">Edit Profile</a>
+    </div>
+</div>
+{%endblock content%}

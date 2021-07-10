@@ -21,3 +21,10 @@ class Profile(models.Model):
     @classmethod
     def search_profile(cls, name):
         return cls.objects.filter(user__username__icontains=name).all()
+   
+    @classmethod        
+    def update_profile(cls, id, profile):
+        cls.objects.filter(id=id).update(profile=profile)
+
+       
+    
