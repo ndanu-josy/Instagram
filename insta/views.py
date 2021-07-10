@@ -1,3 +1,4 @@
+from django.http import request
 from insta.models import Profile
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -40,13 +41,22 @@ def profile(request):
     else:        
         profile_form = profileForm(instance=request.user)
         user_form =userForm(instance=request.user)
-        params = {
-            'update_form':user_form,
-            'profile_form': profile_form
-        }
+       
 
-    profile = Profile.objects.filter(user = request.user)    
-    return render(request,'user_profile.html',{"profile":profile}) 
+      
+    return render(request,'user_profile.html',{"user_form":user_form,"profile_form": profile_form}) 
 
 
- 
+@login_required(login_url='/accounts/login/')
+def update_profile(request):
+    if request.method == 'POST':
+        user_form1 = userForm(request.POST, instance=request.user)
+        profile_form1 = profileForm(request.POST, request.FILES, instance=request.user)
+        if  profile_form1.is_valid():
+            user_form1.save()
+            profile_form1.save()
+            return redirect('profile')
+    else: 
+        profile_form1 = profileForm(instance=request.user)
+        user_form1 = userForm(instance=request.user)
+    return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
