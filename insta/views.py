@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import RegistrationForm, profileForm, userForm
+from .forms import RegistrationForm, profileForm, userForm, postImageForm
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -58,6 +58,19 @@ def update_profile(request):
     return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
 
 @login_required(login_url='/accounts/login/')
+
+@login_required(login_url='accounts/login/')
 def post_image(request):
-    current_user=request.user
-    profile=Profile.objects.get(user=current_user) 
+    current_user = request.user
+    if request.method == 'POST':
+        form = postImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            add=form.save(commit=False)
+            add.profile = current_user
+            add.save()
+            return redirect('home')
+    else:
+        form = postImageForm()
+
+
+    return render(request,'post_image.html',locals())    
