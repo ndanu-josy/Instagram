@@ -40,12 +40,8 @@ def profile(request):
             return redirect('home')
     else:        
         profile_form = profileForm(instance=request.user)
-        user_form =userForm(instance=request.user)
-       
-
-      
+        user_form =userForm(instance=request.user)         
     return render(request,'user_profile.html',{"user_form":user_form,"profile_form": profile_form}) 
-
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
@@ -60,3 +56,8 @@ def update_profile(request):
         profile_form1 = profileForm(instance=request.user)
         user_form1 = userForm(instance=request.user)
     return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
+
+@login_required(login_url='/accounts/login/')
+def post_image(request):
+    current_user=request.user
+    profile=Profile.objects.get(user=current_user) 
