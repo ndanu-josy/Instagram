@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import request
 from insta.models import Profile, Image, Comment
 from django.contrib.auth import authenticate, login
@@ -107,3 +108,29 @@ def comment(request,image_id):
 
     return render(request, 'comment.html', {"form":form, "images":images,'comments':comments})
 
+
+# def search(request):
+#     profiles = Profile.objects.all()
+
+#     if 'username' in request.GET and request.GET['username']:
+#         search_term = request.GET.get('username')
+#         results = User.objects.filter(username__icontains=search_term)
+#         print(results)
+
+#         return render(request,'search.html',locals())
+
+#     return redirect('index')
+
+def searchprofile(request): 
+    if 'insta' in request.GET and request.GET['insta']:
+        name = request.GET.get("insta")
+        searchResults = Profile.search_profile(name)
+        message = f'name'
+        params = {
+            'results': searchResults,
+            'message': message
+        }
+        return render(request, 'search.html', params)
+    else:
+        message = "You haven't searched for any image category"
+    return render(request, 'search.html', {'message': message})
