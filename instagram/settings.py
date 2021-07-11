@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'insta.apps.InstaConfig',
-    
+    'bootstrap3',
+    'cloudinary',
     
 ]
 
@@ -75,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -89,7 +91,7 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'instagram',   
+        'NAME': 'myinsta',   
         'USER': 'moringa',      
         'PASSWORD':'josie',
     }
@@ -136,3 +138,6 @@ STATIC_URL = '/static/'
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

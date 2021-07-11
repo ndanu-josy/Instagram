@@ -7,6 +7,9 @@ urlpatterns=[
     url(r'^$',views.index,name='index'),
     url(r'register/',views.register, name='registration'),
     url('login/', auth_views.LoginView.as_view(), name='login'),
-    url('profile/', views.profile, name='profile'),
-    url('updateProfile/', views.update_profile,name = 'update_profile'),
+    url(r'profile/', views.profile, name='profile'),
+    url(r'updateProfile/', views.update_profile,name = 'update_profile'),
+    url(r'new/post/', views.post_image, name='post_image'),
 ]
+if settings.DEBUG:
+    urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

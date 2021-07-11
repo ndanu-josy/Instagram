@@ -1,5 +1,5 @@
 from django.http import request
-from insta.models import Profile
+from insta.models import Profile, Image
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,11 @@ from .forms import RegistrationForm, profileForm, userForm, postImageForm
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
-        return render(request, 'index.html')
+    profile = Profile.objects.all()
+    posts = Image.objects.all()
+    
+    return render(request,'index.html',{"profile":profile, "posts":posts})
+       
 
 def register(request):
     if request.method=="POST":
@@ -37,7 +41,7 @@ def profile(request):
         if  profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            return redirect('home')
+            return redirect('index')
     else:        
         profile_form = profileForm(instance=request.user)
         user_form =userForm(instance=request.user)         
@@ -62,15 +66,19 @@ def update_profile(request):
 @login_required(login_url='accounts/login/')
 def post_image(request):
     current_user = request.user
+    user_profile = Profile.objects.get(user = current_user)
     if request.method == 'POST':
         form = postImageForm(request.POST, request.FILES)
         if form.is_valid():
-            add=form.save(commit=False)
-            add.profile = current_user
-            add.save()
-            return redirect('home')
+            image=form.cleaned_data.get('image')
+            image_caption=form.cleaned_data.get('image_caption')
+          
+            gram = Image(image = image,image_caption= image_caption, profile=user_profile)
+            gram.save_image() 
+        return redirect('index')
     else:
         form = postImageForm()
 
 
     return render(request,'post_image.html',locals())    
+

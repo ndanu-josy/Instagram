@@ -1,4 +1,23 @@
 {%extends 'base.html'%}
 {%block content%}
 <h1>Helllo Insta</h1>
+<a href="{%url 'post_image'%}">
+    <button type="submit" class="btn btn-sm btn-outline-default" style="margin-top:14px; margin-left:-10px">Add
+        post</button>
+</a>
+{% for post in posts%}
+<div class="container">
+    <div class="col-md-8" style="border-radius:1%;">
+        <div class="card m-3">
+            <img style="width: 350px; height:350px" src="{{post.image.url}}" class="img-thumbnail" >
+            <a href="/" >
+                
+            </a>
+            <p><strong class="text-secondary pl-3">{{post.profile}} <br></strong> {{post.image_caption}}.</p>
+            <br>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {%endblock%}
