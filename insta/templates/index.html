@@ -9,11 +9,12 @@
         border: 2px solid rgb(233, 51, 51);
         border-radius: 50%;
     }
+    
 </style>
 <div class="container-fluid" style="background-color: #f8f9fa; ">
     <div class="container" style="padding-left: 100px;">
         <div class="jumbotron"
-            style="border: 0.5px solid lightgray; background-color: white; display: flex; height: 100px; width: 55%; padding: 10px; justify-content: space-between;">
+            style="border: 0.5px solid lightgray; background-color: white; display: flex; height: 100px; width: 55%; padding: 10px; justify-content: space-between; margin-top: 25px;">
             <div class="card">
                 <div class="card-body">
                     <img class="peeps"
@@ -71,11 +72,15 @@
               
                
                <div class="panel-footer" style="background-color: white;">
-                <a href="{%url 'comment' %}">
-                    Comment
+                <a><img src="https://img.icons8.com/ios/30/000000/like.png"/></a>
+                <a  href="{%url 'comment' %}">    
+                    <img src="https://img.icons8.com/ios/30/000000/topic.png"/>
                 </a>
+                <a><img src="https://img.icons8.com/material-outlined/30/000000/filled-sent.png"/></a>
+               
                 <p><strong class="text-secondary pl-3">{{post.profile}}: </strong> {{post.image_caption}}.</p>
-                <br>
+                
+                <a style="color: gray;">View all comments</a>
                </div>
                 
             </div>
