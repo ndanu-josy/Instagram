@@ -1,10 +1,10 @@
 from django.http import request
-from insta.models import Profile, Image
+from insta.models import Profile, Image, Comment
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import RegistrationForm, profileForm, userForm, postImageForm
+from .forms import RegistrationForm, commentForm, profileForm, userForm, postImageForm
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -85,25 +85,25 @@ def post_image(request):
 @login_required(login_url='accounts/login/')
 def comment(request,image_id):
     current_user=request.user
-    image = Image.objects.get(id=image_id)
-    profile_owner = User.objects.get(username=current_user)
+    images = Image.objects.get(id=image_id)
+    user_profile = Profile.objects.get(username=current_user)
     comments = Comment.objects.all()
     print(comments)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = commentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.image = image
-            comment.comment_owner = current_user
+            comment.image_post = images
+            comment.comment_by = user_profile
             comment.save()
 
             print(comments)
 
 
-        return redirect(home)
+        return redirect('index')
 
     else:
-        form = CommentForm()
+        form = commentForm()
 
-    return render(request, 'comment.html', locals())
+    return render(request, 'comment.html', {"form":form, "images":images,'comments':comments})
 
