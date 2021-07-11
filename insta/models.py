@@ -54,4 +54,15 @@ class Image(models.Model):
 
     def likes(self):
         return self.likes.count()
-              
+
+class Comment(models.Model):
+    comment= models.TextField()
+    comment_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    image_post = models.ForeignKey(Image, on_delete=models.CASCADE)
+    time_posted = models.DateTimeField(auto_now_add=True, null=True)
+
+    def save_comment(self):
+        self.save()
+
+    def delete_comment(self):
+        self.delete()       
