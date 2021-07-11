@@ -82,6 +82,28 @@ def post_image(request):
 
     return render(request,'post_image.html', {"form": form})  
 
+@login_required(login_url='accounts/login/')
+def comment(request,image_id):
+    current_user=request.user
+    image = Image.objects.get(id=image_id)
+    profile_owner = User.objects.get(username=current_user)
+    comments = Comment.objects.all()
+    print(comments)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.comment_owner = current_user
+            comment.save()
 
- 
+            print(comments)
+
+
+        return redirect(home)
+
+    else:
+        form = CommentForm()
+
+    return render(request, 'comment.html', locals())
 
