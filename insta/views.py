@@ -10,7 +10,7 @@ from .forms import RegistrationForm, profileForm, userForm, postImageForm
 def index(request):
     profile = Profile.objects.all()
     posts = Image.objects.all()
-    
+
     return render(request,'index.html',{"profile":profile, "posts":posts})
        
 
@@ -61,7 +61,7 @@ def update_profile(request):
         user_form1 = userForm(instance=request.user)
     return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
 
-@login_required(login_url='/accounts/login/')
+
 
 @login_required(login_url='accounts/login/')
 def post_image(request):
@@ -80,5 +80,8 @@ def post_image(request):
         form = postImageForm()
 
 
-    return render(request,'post_image.html',locals())    
+    return render(request,'post_image.html', {"form": form})  
+
+
+ 
 
