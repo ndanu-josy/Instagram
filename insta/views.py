@@ -63,64 +63,6 @@ def update_profile(request):
     return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
 
 
-
-@login_required(login_url='accounts/login/')
-def post_image(request):
-    current_user = request.user
-    user_profile = Profile.objects.get(user = current_user)
-    if request.method == 'POST':
-        form = postImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            image=form.cleaned_data.get('image')
-            image_caption=form.cleaned_data.get('image_caption')
-          
-            gram = Image(image = image,image_caption= image_caption, profile=user_profile)
-            gram.save_image() 
-        return redirect('index')
-    else:
-        form = postImageForm()
-
-
-    return render(request,'post_image.html', {"form": form})  
-
-@login_required(login_url='accounts/login/')
-def comment(request,image_id):
-    current_user=request.user
-    images = Image.objects.get(id=image_id)
-    user_profile = Profile.objects.get(username=current_user)
-    comments = Comment.objects.all()
-    print(comments)
-    if request.method == 'POST':
-        form = commentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.image_post = images
-            comment.comment_by = user_profile
-            comment.save()
-
-            print(comments)
-
-
-        return redirect('index')
-
-    else:
-        form = commentForm()
-
-    return render(request, 'comment.html', {"form":form, "images":images,'comments':comments})
-
-
-# def search(request):
-#     profiles = Profile.objects.all()
-
-#     if 'username' in request.GET and request.GET['username']:
-#         search_term = request.GET.get('username')
-#         results = User.objects.filter(username__icontains=search_term)
-#         print(results)
-
-#         return render(request,'search.html',locals())
-
-#     return redirect('index')
-
 def searchprofile(request): 
     if 'insta' in request.GET and request.GET['insta']:
         name = request.GET.get("insta")
@@ -134,3 +76,44 @@ def searchprofile(request):
     else:
         message = "You haven't searched for any image category"
     return render(request, 'search.html', {'message': message})
+
+
+@login_required(login_url='accounts/login/')
+def post_image(request):
+    current_user = request.user
+    user_profile = Profile.objects.get(user = current_user)
+    if request.method == 'POST':
+        form = postImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image=form.cleaned_data.get('image')
+            image_caption=form.cleaned_data.get('image_caption')          
+            ig_post = Image(image = image,image_caption= image_caption, profile=user_profile)
+            ig_post.save_image() 
+        return redirect('index')
+    else:
+        form = postImageForm()
+    return render(request,'post_image.html', {"form": form})  
+
+
+@login_required(login_url='accounts/login/')
+def comment(request,image_id):
+    current_user=request.user
+    images = Image.objects.get(id=image_id)
+    user_profile = Profile.objects.get(username=current_user)
+    comments = Comment.objects.all()
+
+    if request.method == 'POST':
+        form = commentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image_post = images
+            comment.comment_by = user_profile
+            comment.save() 
+        return redirect('index')
+    else:
+        form = commentForm()
+    return render(request, 'comment.html', {"form":form, "images":images,'comments':comments})
+
+
+
+
