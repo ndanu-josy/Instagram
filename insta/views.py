@@ -34,7 +34,7 @@ def register(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    
+ 
     if request.method == 'POST':
         user_form = userForm(request.POST, instance=request.user)
         profile_form = profileForm(
@@ -50,17 +50,23 @@ def profile(request):
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
+
     if request.method == 'POST':
         user_form1 = userForm(request.POST, instance=request.user)
-        profile_form1 = profileForm(request.POST, request.FILES, instance=request.user)
-        if  profile_form1.is_valid():
-            user_form1.save()
+        profile_form1 = profileForm(request.POST, request.FILES, instance=request.user.profile)
+        if   profile_form1.is_valid() and user_form1.is_valid:    
+             
             profile_form1.save()
+            user_form1.save()
             return redirect('profile')
+           
     else: 
-        profile_form1 = profileForm(instance=request.user)
         user_form1 = userForm(instance=request.user)
+        profile_form1 = profileForm(instance=request.user.profile)
+      
     return render(request, 'update_profile.html', {"user_form1":user_form1,"profile_form1": profile_form1})
+
+
 
 
 def searchprofile(request): 

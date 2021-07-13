@@ -1,14 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
-# from cloudinary.models import CloudinaryField
+from cloudinary.models import CloudinaryField
 from django.db.models.fields.related import ForeignKey
 
 # Create your models here.
 
 class Profile(models.Model):
-    # profile_photo = CloudinaryField('profiles-pic')
+   
     user = models.OneToOneField(User,on_delete=models.CASCADE, default=0)
-    profile_photo = models.ImageField(upload_to='images/', default='default.png')
+    profile_photo = CloudinaryField('profiles-pic')
+    # profile_photo = models.ImageField(upload_to='images/', default='default.png')
     bio = models.CharField(max_length=50)   
     following = models.ManyToManyField(User,blank=True,related_name='follow')
 
@@ -30,8 +31,8 @@ class Profile(models.Model):
         cls.objects.filter(id=id).update(profile=profile)
 
 class Image(models.Model):
-    # image = CloudinaryField('posts')
-    image = models.ImageField(upload_to='posts/')
+    image = CloudinaryField('posts')
+    # image = models.ImageField(upload_to='posts/')
     image_name= models.CharField(max_length=50, blank=True)
     image_caption= models.CharField(max_length=400)
     profile = models.ForeignKey(Profile,on_delete = models.CASCADE)  
