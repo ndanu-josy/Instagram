@@ -12,16 +12,16 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-# import cloudinary
-# import cloudinary.uploader
-# import cloudinary.api
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
-# cloudinary.config(
-#   cloud_name = "jos254",
-#   api_key = "888584575498376",
-#   api_secret = "jS8SX99ro6Cecs2oUxLshigg5ug",
-#   secure = True
-# )
+cloudinary.config(
+  cloud_name = "jos254",
+  api_key = "888584575498376",
+  api_secret = "jS8SX99ro6Cecs2oUxLshigg5ug",
+  secure = True
+)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

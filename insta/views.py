@@ -39,7 +39,7 @@ def profile(request):
         user_form = userForm(request.POST, instance=request.user)
         profile_form = profileForm(
             request.POST, request.FILES, instance=request.user)
-        if  profile_form.is_valid():
+        if  profile_form.is_valid() and user_form.is_valid():
             user_form.save()
             profile_form.save()
             return redirect('index')
@@ -48,9 +48,40 @@ def profile(request):
         user_form =userForm(instance=request.user)         
     return render(request,'user_profile.html',{"user_form":user_form,"profile_form": profile_form}) 
 
+def searchprofile(request): 
+    if 'insta' in request.GET and request.GET['insta']:
+        name = request.GET.get("insta")
+        searchResults = Profile.search_profile(name)
+        message = f'name'
+        params = {
+            'results': searchResults,
+            'message': message
+        }
+        return render(request, 'search.html', params)
+    else:
+        message = "You haven't searched for any image category"
+    return render(request, 'search.html', {'message': message})
+
+
+
+def post_image(request):
+    profile= Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = postImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            ig_post = form.save(commit = False)
+            ig_post.profile = request.user.profile
+            ig_post.save()
+            return redirect("index")
+    else:
+        form = postImageForm()
+    return render (request, 'post_image.html', {"form":form})    
+
+
+
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
-
+    
     if request.method == 'POST':
         user_form1 = userForm(request.POST, instance=request.user)
         profile_form1 = profileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -68,37 +99,6 @@ def update_profile(request):
 
 
 
-
-def searchprofile(request): 
-    if 'insta' in request.GET and request.GET['insta']:
-        name = request.GET.get("insta")
-        searchResults = Profile.search_profile(name)
-        message = f'name'
-        params = {
-            'results': searchResults,
-            'message': message
-        }
-        return render(request, 'search.html', params)
-    else:
-        message = "You haven't searched for any image category"
-    return render(request, 'search.html', {'message': message})
-
-
-@login_required(login_url='accounts/login/')
-def post_image(request):
-    current_user = request.user
-    user_profile = Profile.objects.get(user = current_user)
-    if request.method == 'POST':
-        form = postImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            image=form.cleaned_data.get('image')
-            image_caption=form.cleaned_data.get('image_caption')          
-            ig_post = Image(image = image,image_caption= image_caption, profile=user_profile)
-            ig_post.save_image() 
-        return redirect('index')
-    else:
-        form = postImageForm()
-    return render(request,'post_image.html', {"form": form})  
 
 
 @login_required(login_url='accounts/login/')
