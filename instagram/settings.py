@@ -79,7 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'doubletap.apps.InstaConfig',
+    'insta.apps.InstaConfig',
     'bootstrap3',
     'cloudinary',
 ]
