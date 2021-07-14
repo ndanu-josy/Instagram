@@ -38,6 +38,11 @@ Run the following command on the terminal:
 7.  Testing the application
      python3 manage.py test insta
 
+### Admin Dashboard
+    (https://myinstaposts.herokuapp.com/admin)
+
+### Search functionality
+    search by username
 ## Technologies used
     Python 3.8
     Bootstrap
