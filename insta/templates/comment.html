@@ -2,36 +2,19 @@
 {% load bootstrap3 %}
 {% block content %}
 <div class="container">
-    <div class="row  p-5 mt-5">
+    <div class="row">
         {%for image in images%}
-
-        <div class="col-md-6">
+        <div class="col-md-5">
             <img src=" {{image.image.url}}" class="img-fluid">
-
-
 
             <form class="form" action="" method="post" novalidate>
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <div class="row pl-5">
-                    <button type="submit" class="btn btn-sm btn-outline-primary"
-                        style="margin-top:14px; margin-left:-10px">Comment</button>
-                </div>
-
-
+                <button type="submit" class="btn btn-sm btn-info">Comment</button>
             </form>
-
         </div>
-
+        {%endfor%}
     </div>
-</div>
-<div class="col-md-6">
-    {%for comment in comments%}
-    <p><strong class="text-secondary">{{comment.comment_by.user}}</strong> {{comment.comment}}</p>
-    {%endfor%}
-</div>
-{%endfor%}
-</div>
 </div>
 
 {% endblock %}
