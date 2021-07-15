@@ -10,7 +10,7 @@ urlpatterns=[
     url(r'profile/', views.profile, name='profile'),
     url(r'updateProfile/', views.update_profile,name = 'update_profile'),
     url(r'new/post/', views.post_image, name='post_image'),
-    url(r'comment/<id>', views.comment, name='comment'),
+    url(r'comment/<int:id>', views.comment, name='comment'),
     url('search/', views.searchprofile, name='search'),
 ]
 if settings.DEBUG:

@@ -40,6 +40,8 @@ Run the following command on the terminal:
 
 ### Admin Dashboard
     (https://myinstaposts.herokuapp.com/admin)
+    username: moringa2
+    password: moringa123t 
 
 ### Search functionality
     search by username
